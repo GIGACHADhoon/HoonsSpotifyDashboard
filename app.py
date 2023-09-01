@@ -58,12 +58,12 @@ app.layout = html.Div([
                             id = 'popularityHist',style={'display': 'inline-block'}
                         )
                         ], style={"border":"1px black solid",'height':'25%'})
-                    ],style={"text-align": "center"},),width = 7),
+                    ],style={"text-align": "center",'margin-left':'10px'},),width = 7),
                 dbc.Col(
                     html.Div(children = [
                         html.P(id = 'albumFound'),
                         html.Img(alt= 'Album Cover will be displayed here.',id='albumCover',style={'width':'85%','height':'85%'})
-                    ], style={"border":"1px black solid"}),
+                    ], style={"border":"1px black solid",'margin-top':'10%'}),
                     width=5,style={'text-align': 'center','display':'flex','flex-direction':'column','align-items': 'center'}
                 )
             ])
