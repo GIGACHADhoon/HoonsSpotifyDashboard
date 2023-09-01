@@ -53,20 +53,21 @@ app.layout = html.Div([
                             html.H5('Select a song in the table and listen to a Snippet!'),
                             html.P(id = 'songFound'),
                             html.Audio(controls=True, style={'align': 'center'}, id ='snippetLink')
-                        ], style={"border":"        1px black solid"}),
+                        ], style={"border":"1px black solid"}),
                         html.Div(children = [
-                        html.H5('Below is a Popularity Score Distribution Histogram'),
-                        html.P('By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity score" of that song on the Spotify Platform'),
+                        html.H5('Below is a Spotify Popularity Index Distribution Histogram'),
+                        html.P('The Histogram shows the distribution of the Spotify Popularity Index (a score out of 100) of the songs I listen to. \
+                               By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity index" of that Song.'),
                         dcc.Graph(
                             id = 'popularityHist',style={'display': 'inline-block'}
                         )
-                        ], style={"border":"1px black solid",'height':'25%'})
-                    ],style={"text-align": "center",'margin-left':'55px','margin-bottom':'10px'},),width = 7),
+                        ], style={"border":"1px black solid"})
+                    ],style={"text-align": "center"},),width = 7,style={'text-align': 'center','display':'flex','flex-direction':'column','align-items': 'center'}),
                 dbc.Col(
                     html.Div(children = [
                         html.P(id = 'albumFound'),
                         html.Img(alt= 'Album Cover will be displayed here.',id='albumCover',style={'width':'85%','height':'85%'})
-                    ], style={"border":"1px black solid",'margin-top':'3%'}),
+                    ], style={"border":"1px black solid",'margin-top':'4%'},),
                     width=5,style={'text-align': 'center','display':'flex','flex-direction':'column','align-items': 'center'}
                 )
             ])
@@ -106,11 +107,12 @@ def update_image(active):
 Output('popularityHist', 'figure'),
 Input('Rankings', 'active_cell'))
 def update_hist(active):
-    fig = px.histogram(spTools.getChosen(), x="popularity", nbins=20,opacity=0.2)
+    fig = px.histogram(spTools.getChosen(), x="popularity", nbins=20,opacity=0.2,labels={
+                     "popularity": "Spotify Popularity Index"})
     if active:
         search = spTools.getChosen()[spTools.getChosen()['id']==active['row_id']]['popularity'].values[0]
         fig.add_vline(x=search)
-    fig.update_layout(bargap=0.2)
+    fig.update_layout(bargap=0.2,yaxis={'visible': False, 'showticklabels': False})
     return fig
 
 @callback(
@@ -126,9 +128,9 @@ def update_snippet(active):
 @callback(
 Output('albumFound', 'children'),
 Input('Rankings', 'active_cell'))
-def update_snippet(active):
+def update_album(active):
     if active:
-        return 'The Album Cover of the selected Song:'
+        return 'The Album Cover of the selected Song is shown below'
     else:
         return 'There is no Album Cover 😔'
 
