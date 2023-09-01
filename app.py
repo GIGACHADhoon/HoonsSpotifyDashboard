@@ -53,7 +53,7 @@ app.layout = html.Div([
                         ], style={"border":"1px black solid"}),
                         html.Div(children = [
                         html.H5('Below is a Popularity Score Distribution Histogram'),
-                        html.P('By clicking on any of the Songs in the Table, a vertical line will appear indicating the popularity of that song on the Spotify Platform'),
+                        html.P('By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity score" of that song on the Spotify Platform'),
                         dcc.Graph(
                             id = 'popularityHist',style={'display': 'inline-block'}
                         )
