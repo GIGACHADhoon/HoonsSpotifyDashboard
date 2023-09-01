@@ -1,0 +1,8 @@
+dash
+pandas
+dash_bootstrap_components
+plotly
+pyodbc
+geopandas
+gunicorn
+kaleido
