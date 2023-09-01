@@ -4,6 +4,7 @@ from spotifyTools import spotifyTools
 import plotly.express as px
 
 app = Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 spTools = spotifyTools()
 Rankings = spTools.getRankings()
 Snippets = spTools.getSnippets()
@@ -129,4 +130,4 @@ def update_snippet(active):
         return 'There is no Album Cover 😔'
 
 if __name__=="__main__":
-    app.run("0.0.0.0")                       
+    app.run()
