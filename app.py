@@ -22,6 +22,18 @@ style_data_conditional = [
     },
 ]
 
+# Add a CSS class for the table rows
+table_row_style = {
+    'height': '50px',  # Adjust the height as needed
+}
+
+# Add a CSS class for the table cells
+table_cell_style = {
+    'whiteSpace': 'normal',
+    'height': 'auto',
+    'backgroundColor': 'lavender',
+}
+
 # Use the Spotify green color (#1DB954) as the primary color
 spotify_green = "#1DB954"
 
@@ -50,19 +62,16 @@ app.layout = html.Div([
     ], style={'margin-top': '10px', 'margin-bottom': '10px', "border": f"1px solid {spotify_green}"}),
     html.Div([
         dash_table.DataTable(
-            css=[{"selector": ".show-hide", "rule": "display: none"}],
-            style_data_conditional=style_data_conditional,
-            hidden_columns=['popularity', 'id'],
-            id='Rankings',
-            style_cell=dict(textAlign='left'),
-            style_header=dict(backgroundColor=spotify_green, color="white"),
-            page_size=5,
-            sort_action="native",
-            style_data={
-                'whiteSpace': 'normal',
-                'height': 'auto',
-                'backgroundColor': 'lavender',
-            }),
+        css=[{"selector": ".show-hide", "rule": "display: none"}],
+        style_data_conditional=style_data_conditional,
+        hidden_columns=['popularity', 'id'],
+        id='Rankings',
+        style_cell=table_cell_style,  # Apply the cell style
+        style_header=dict(backgroundColor=spotify_green, color="white"),
+        page_size=5,
+        sort_action="native",
+        style_data=table_row_style,  # Apply the row style
+    ),
         dbc.Row([
             dbc.Col(
                 html.Div(children=[
@@ -78,7 +87,6 @@ app.layout = html.Div([
                         dcc.Graph(
                             id='popularityHist',
                             style={'display': 'inline-block', 'width': '100%'},  # Adjust graph width
-                            config={'responsive': True}
                         )
                     ], style={"border": f"1px solid {spotify_green}"})
                 ]), width=7, style={'textAlign': 'center'}),  # Use width=12 for full width on mobile
@@ -94,14 +102,15 @@ app.layout = html.Div([
 ])
 
 @callback(  
-Output('Rankings', 'style_data_conditional'),
-Input('Rankings', 'active_cell'))
+    Output('Rankings', 'style_data_conditional'),
+    Input('Rankings', 'active_cell'))
 def update_selected_row_color(active):
     style = style_data_conditional.copy()
     if active:
+        # Update only the selected cell's background color
         style.append(
             {
-                "if": {"row_index": active["row"]},
+                "if": {"filter_query": "{{id}} = {}".format(active["row_id"])},
                 "backgroundColor": "rgba(150, 180, 225, 0.2)",
                 "border": "1px solid blue",
             },
