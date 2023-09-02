@@ -22,18 +22,32 @@ style_data_conditional = [
     },
 ]
 
+# Use the Spotify green color (#1DB954) as the primary color
+spotify_green = "#1DB954"
+
+# Create a custom style for the buttons
+button_style = {
+    "background-color": spotify_green,
+    "color": "white",
+    "border": "none",
+    "border-radius": "5px",
+    "padding": "10px 20px",
+    "font-size": "16px",
+    "cursor": "pointer",
+}
+
 app.layout = html.Div([
-    html.H1("Hoon's Spotify Dashboard", style={'textAlign': 'center'}),
+    html.H1("Hoon's Spotify Dashboard", style={'textAlign': 'center', 'color': spotify_green}),
     html.Div(children=[   
         dbc.Row([
-            html.H6('Please Select One of the Contexts Below',style = {'text-align':'center'})
-        ],align="center"),
+            html.H6('Please Select One of the Contexts Below', style={'text-align': 'center', 'color': spotify_green}),
+        ], align="center"),
         dbc.Row([
-            dbc.Col(html.Button('Listening Habits Over 2 Years', id="btn-1", className="btn"), width=4, style={'textAlign': 'center'}),
-            dbc.Col(html.Button('Listening Habits Over 6 months', id="btn-2", className="btn"), width=4, style={'textAlign': 'center'}),
-            dbc.Col(html.Button('Listening Habits Over the last month', id="btn-3", className="btn"), width=4, style={'textAlign': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over 2 Years', id="btn-1", className="btn", style=button_style), width=4, style={'textAlign': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over 6 months', id="btn-2", className="btn", style=button_style), width=4, style={'textAlign': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over the last month', id="btn-3", className="btn", style=button_style), width=4, style={'textAlign': 'center'}),
         ])
-    ], style={'margin-top': '10px', 'margin-bottom': '10px',"border":"1px black solid"}),
+    ], style={'margin-top': '10px', 'margin-bottom': '10px', "border": f"1px solid {spotify_green}"}),
     html.Div([
         dash_table.DataTable(
             css=[{"selector": ".show-hide", "rule": "display: none"}],
@@ -41,7 +55,7 @@ app.layout = html.Div([
             hidden_columns=['popularity', 'id'],
             id='Rankings',
             style_cell=dict(textAlign='left'),
-            style_header=dict(backgroundColor="paleturquoise"),
+            style_header=dict(backgroundColor=spotify_green, color="white"),
             page_size=5,
             sort_action="native",
             style_data={
@@ -53,12 +67,12 @@ app.layout = html.Div([
             dbc.Col(
                 html.Div(children=[
                     html.Div(children=[
-                        html.H5('Select a song in the table and listen to a Snippet!'),
+                        html.H5('Select a song in the table and listen to a Snippet!', style={'color': spotify_green}),
                         html.P(id='songFound'),
                         html.Audio(controls=True, style={'width': '100%'}, id='snippetLink')  # Adjust audio width
-                    ], style={"border": "1px black solid"}),
+                    ], style={"border": f"1px solid {spotify_green}"}),
                     html.Div(children=[
-                        html.H5('Below is a Spotify Popularity Index Distribution Histogram'),
+                        html.H5('Below is a Spotify Popularity Index Distribution Histogram', style={'color': spotify_green}),
                         html.P('The Histogram shows the distribution of the Spotify Popularity Index (a score out of 100) of the songs I listen to. \
                             By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity index" of that Song.'),
                         dcc.Graph(
@@ -66,16 +80,16 @@ app.layout = html.Div([
                             style={'display': 'inline-block', 'width': '100%'},  # Adjust graph width
                             config={'responsive': True}
                         )
-                    ], style={"border": "1px black solid"})
+                    ], style={"border": f"1px solid {spotify_green}"})
                 ]), width=7, style={'textAlign': 'center'}),  # Use width=12 for full width on mobile
             dbc.Col(
-                html.Div(children = [
-                    html.P(id = 'albumFound'),
-                    html.Img(alt= 'Album Cover will be displayed here.',id='albumCover',style={'width':'85%','height':'85%'})
-                ], style={"border":"1px black solid"},),
-                width=5,style={'text-align': 'center'}
+                html.Div(children=[
+                    html.P(id='albumFound'),
+                    html.Img(alt='Album Cover will be displayed here.', id='albumCover', style={'width': '85%', 'height': '85%'})
+                ], style={"border": f"1px solid {spotify_green}"}),
+                width=5, style={'text-align': 'center'}
             )
-        ],align="center")
+        ], align="center")
     ])
 ])
 
