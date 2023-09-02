@@ -24,13 +24,16 @@ style_data_conditional = [
 
 app.layout = html.Div([
     html.H1("Hoon's Spotify Dashboard", style={'textAlign': 'center'}),
-    html.Div(children=[    
+    html.Div(children=[   
+        dbc.Row([
+            html.H6('Please Select One of the Contexts Below',style = {'text-align':'center'})
+        ],align="center"),
         dbc.Row([
             dbc.Col(html.Button('Listening Habits Over 2 Years', id="btn-1", className="btn"), width=4, style={'textAlign': 'center'}),
             dbc.Col(html.Button('Listening Habits Over 6 months', id="btn-2", className="btn"), width=4, style={'textAlign': 'center'}),
             dbc.Col(html.Button('Listening Habits Over the last month', id="btn-3", className="btn"), width=4, style={'textAlign': 'center'}),
         ])
-    ], style={'margin-top': '10px', 'margin-bottom': '10px'}),
+    ], style={'margin-top': '10px', 'margin-bottom': '10px',"border":"1px black solid"}),
     html.Div([
         dash_table.DataTable(
             css=[{"selector": ".show-hide", "rule": "display: none"}],
