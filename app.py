@@ -24,54 +24,56 @@ style_data_conditional = [
 
 app.layout = html.Div([
     html.H1("Hoon's Spotify Dashboard", style={'textAlign': 'center'}),
-    html.Div(children = [    
+    html.Div(children=[    
         dbc.Row([
-            dbc.Col(html.Button('Listening Habits Over 2 Years',id="btn-1", className="btn"),width=4,style={'text-align': 'center'}),
-            dbc.Col(html.Button('Listening Habits Over 6 months',id="btn-2", className="btn"),width=4,style={'text-align': 'center'}),
-            dbc.Col(html.Button('Listening Habits Over the last month',id="btn-3", className="btn"),width=4,style={'text-align': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over 2 Years', id="btn-1", className="btn"), width=4, style={'textAlign': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over 6 months', id="btn-2", className="btn"), width=4, style={'textAlign': 'center'}),
+            dbc.Col(html.Button('Listening Habits Over the last month', id="btn-3", className="btn"), width=4, style={'textAlign': 'center'}),
         ])
-    ],style = {'margin-top':'10px','margin-bottom':'10px'}),
+    ], style={'margin-top': '10px', 'margin-bottom': '10px'}),
     html.Div([
-            dash_table.DataTable(
-                        css=[{"selector": ".show-hide", "rule": "display: none"}],
-                        style_data_conditional=style_data_conditional,
-                        hidden_columns = ['popularity','id'],
-                        id='Rankings',
-                        style_cell=dict(textAlign='left'),
-                        style_header=dict(backgroundColor="paleturquoise"),
-                        page_size=5,
-                        sort_action="native",
-                        style_data={
-                            'whiteSpace': 'normal',
-                            'height': 'auto',
-                            'backgroundColor':'lavender',
-                            },),
-            dbc.Row([
-                dbc.Col(
-                    html.Div(children = [
-                        html.Div(children = [
-                            html.H5('Select a song in the table and listen to a Snippet!'),
-                            html.P(id = 'songFound'),
-                            html.Audio(controls=True, style={'align': 'center'}, id ='snippetLink')
-                        ], style={"border":"1px black solid"}),
-                        html.Div(children = [
+        dash_table.DataTable(
+            css=[{"selector": ".show-hide", "rule": "display: none"}],
+            style_data_conditional=style_data_conditional,
+            hidden_columns=['popularity', 'id'],
+            id='Rankings',
+            style_cell=dict(textAlign='left'),
+            style_header=dict(backgroundColor="paleturquoise"),
+            page_size=5,
+            sort_action="native",
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'backgroundColor': 'lavender',
+            }),
+        dbc.Row([
+            dbc.Col(
+                html.Div(children=[
+                    html.Div(children=[
+                        html.H5('Select a song in the table and listen to a Snippet!'),
+                        html.P(id='songFound'),
+                        html.Audio(controls=True, style={'width': '100%'}, id='snippetLink')  # Adjust audio width
+                    ], style={"border": "1px black solid"}),
+                    html.Div(children=[
                         html.H5('Below is a Spotify Popularity Index Distribution Histogram'),
                         html.P('The Histogram shows the distribution of the Spotify Popularity Index (a score out of 100) of the songs I listen to. \
-                               By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity index" of that Song.'),
+                            By clicking on any of the Songs in the Table, a vertical line will appear indicating the "spotify popularity index" of that Song.'),
                         dcc.Graph(
-                            id = 'popularityHist',style={'display': 'inline-block'}
+                            id='popularityHist',
+                            style={'display': 'inline-block', 'width': '100%'},  # Adjust graph width
+                            config={'responsive': True}
                         )
-                        ], style={"border":"1px black solid"})
-                    ]),width = 7,style={'text-align': 'center'}),
-                dbc.Col(
-                    html.Div(children = [
-                        html.P(id = 'albumFound'),
-                        html.Img(alt= 'Album Cover will be displayed here.',id='albumCover',style={'width':'85%','height':'85%'})
-                    ], style={"border":"1px black solid"},),
-                    width=5,style={'text-align': 'center'}
-                )
-            ],align="center")
-        ])
+                    ], style={"border": "1px black solid"})
+                ]), width=7, style={'textAlign': 'center'}),  # Use width=12 for full width on mobile
+            dbc.Col(
+                html.Div(children = [
+                    html.P(id = 'albumFound'),
+                    html.Img(alt= 'Album Cover will be displayed here.',id='albumCover',style={'width':'85%','height':'85%'})
+                ], style={"border":"1px black solid"},),
+                width=5,style={'text-align': 'center'}
+            )
+        ],align="center")
+    ])
 ])
 
 @callback(  
